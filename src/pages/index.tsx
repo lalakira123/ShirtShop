@@ -4,13 +4,10 @@ import Image from "next/image";
 import { HomeContainer, Product } from "../styles/pages/home";
 import { stripe } from "../lib/stripe";
 
-import shirt1 from './../assets/shirts/1.svg'
-import shirt2 from './../assets/shirts/2.svg'
-import shirt3 from './../assets/shirts/3.svg'
-
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 import Stripe from "stripe";
+import { priceFormatter } from "../utils/formatter";
 
 interface HomeProps {
   products: {
@@ -68,7 +65,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount ? price.unit_amount / 100 : undefined,
+      price: price.unit_amount ? priceFormatter.format(price.unit_amount / 100) : undefined,
     }
   })
 
