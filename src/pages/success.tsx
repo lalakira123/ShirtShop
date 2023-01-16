@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Stripe from "stripe";
 import { stripe } from "../lib/stripe";
-import { ImageContainer, SuccessContainer } from "../styles/pages/sucess";
+import { ImageContainer, ImageFrame, SuccessContainer } from "../styles/pages/sucess";
 
 interface SuccessProps {
 	customerName: string
@@ -23,18 +23,43 @@ export default function Success({ customerName, product }: SuccessProps) {
       </Head>
 
 			<SuccessContainer>
-				<h1>Compra efetuada!</h1>
 
-				<ImageContainer>
-					<Image 
-						src={product.imageUrl}
-						blurDataURL={product.imageUrl}
-						placeholder={'blur'}
-						width={120}
-						height={110} 
-						alt=""
-					/>
-				</ImageContainer>
+				<ImageFrame>
+					<ImageContainer>
+						<Image 
+							src={product.imageUrl}
+							blurDataURL={product.imageUrl}
+							placeholder={'blur'}
+							width={120}
+							height={110} 
+							alt=""
+							/>
+					</ImageContainer>
+					
+					<ImageContainer>
+						<Image 
+							src={product.imageUrl}
+							blurDataURL={product.imageUrl}
+							placeholder={'blur'}
+							width={120}
+							height={110} 
+							alt=""
+							/>
+					</ImageContainer>
+
+					<ImageContainer>
+						<Image 
+							src={product.imageUrl}
+							blurDataURL={product.imageUrl}
+							placeholder={'blur'}
+							width={120}
+							height={110} 
+							alt=""
+							/>
+					</ImageContainer>
+				</ImageFrame>
+
+				<h1>Compra efetuada!</h1>
 
 				<p>
 					Uhuul <strong>{customerName}</strong>, sua <strong>{product.name}</strong> já está a caminho da sua casa.

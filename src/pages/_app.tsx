@@ -7,24 +7,29 @@ import * as Dialog from '@radix-ui/react-dialog';
 
 import logoImg from './../assets/logo.svg'
 import { CartModal } from '../components/CartModal'
+import { useRouter } from 'next/router'
 
 globalStyles()
 
 export default function App({ Component, pageProps }: AppProps) {  
+  const { asPath } = useRouter()
+
   return (
     <Container>
-      <Header> 
+      <Header justify={asPath.includes('/success') ? 'center' : 'spaceBetween'}> 
         <Image src={logoImg.src} width={129.74} height={52} alt="" />
 
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <CartButton>
-              <Handbag />
-            </CartButton>
-          </Dialog.Trigger>
+        {!asPath.includes('/success') && 
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <CartButton>
+                <Handbag />
+              </CartButton>
+            </Dialog.Trigger>
 
-          <CartModal />
-        </Dialog.Root>
+            <CartModal />
+          </Dialog.Root>
+        }
       </Header>
 
       <Component {...pageProps} />

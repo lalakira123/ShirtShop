@@ -15,7 +15,12 @@ export const Header = styled('header', {
 	margin: '0 auto',
 
 	display: 'flex',
-	justifyContent: 'space-between',
+	variants: {
+		justify: {
+			center: { justifyContent: "center" },
+			spaceBetween: { justifyContent: "space-between" },
+		},
+	},
 	alignItems: 'center',
 })
 
