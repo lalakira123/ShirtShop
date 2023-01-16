@@ -1,5 +1,10 @@
 import * as Dialog from '@radix-ui/react-dialog';
+import Image from 'next/image';
 import { X } from 'phosphor-react';
+import { useContext } from 'react';
+import { BagContext } from '../contexts/BagContext';
+import { Handbag } from 'phosphor-react';
+import { CartButton, CartButtonFull } from '../styles/pages/app'
 import { 
   BagContainer, 
   Close,
@@ -14,59 +19,76 @@ import {
 } from '../styles/components/CartModal';
 
 export function CartModal() {
+  const { bag, removeItemFromBag } = useContext(BagContext)
+
   return (
-    <Dialog.Portal>
-      <Overlay />
-      <Content>
-        
-        <BagContainer>
-          <Close>
-            <X />
-          </Close>
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        {bag.length > 0 ? 
+          <CartButtonFull>
+            <Handbag />
+            <span>{bag.length}</span>
+          </CartButtonFull>
+          :
+          <CartButton>
+            <Handbag />
+          </CartButton>
+        }
+      </Dialog.Trigger>
 
-          <h1>Sacola de compras</h1>
+      <Dialog.Portal>
+        <Overlay />
+        <Content>
+          
+          <BagContainer>
+            <Close>
+              <X />
+            </Close>
 
-          <ProductContainer>
+            <h1>Sacola de compras</h1>
 
-            <ImageContainer>
-              <img src="" alt=""/>
-            </ImageContainer>
+            {bag.map((item) => {
+              return (
+                <ProductContainer key={item.id}>
+                  <ImageContainer>
+                    <Image 
+                      src={item.imageUrl}
+                      blurDataURL={item.imageUrl}
+                      placeholder={'blur'}
+                      width={95}
+                      height={95}
+                      alt=''
+                    />
+                  </ImageContainer>
 
-            <ProductInfoContainer>
-              <span>Camiseta Beyond the Limits</span>
-              <strong>R$ 79,90</strong>
-              <button>Remover</button>
-            </ProductInfoContainer>
-          </ProductContainer>
+                  <ProductInfoContainer>
+                    <span>{item.name}</span>
+                    <strong>{item.price}</strong>
+                    <button onClick={() => removeItemFromBag(item.id)}>
+                      Remover
+                    </button>
+                  </ProductInfoContainer>
+                </ProductContainer>
+              )})
+            }
 
-          <ProductContainer>
+          </BagContainer>
 
-            <ImageContainer>
-              <img src="" alt=""/>
-            </ImageContainer>
+          <PurcharseInfoContainer>
+            <QuantityContainer>
+              <span>Quantidade</span>
+              <strong>{bag.length} itens</strong>
+            </QuantityContainer>
 
-            <ProductInfoContainer>
-              <span>Camiseta Beyond the Limits</span>
-              <strong>R$ 79,90</strong>
-              <button>Remover</button>
-            </ProductInfoContainer>
-          </ProductContainer>
-        </BagContainer>
+            <ValueContainer>
+              <span>Valor total</span>
+              <strong>R$ 270,00</strong>
+            </ValueContainer>
 
-        <PurcharseInfoContainer>
-          <QuantityContainer>
-            <span>Quantidade</span>
-            <strong>3 itens</strong>
-          </QuantityContainer>
-
-          <ValueContainer>
-            <span>Valor total</span>
-            <strong>R$ 270,00</strong>
-          </ValueContainer>
-
-          <button>Finalizar compra</button>
-        </PurcharseInfoContainer>
-      </Content>
-    </Dialog.Portal>
+            <button>Finalizar compra</button>
+          </PurcharseInfoContainer>
+        </Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }

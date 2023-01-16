@@ -3,8 +3,9 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Stripe from "stripe"
+import { BagContext } from "../../contexts/BagContext"
 import { stripe } from "../../lib/stripe"
 import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 import { priceFormatter } from "../../utils/formatter"
@@ -21,7 +22,9 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-	const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+	//const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
+	const { createItemInBag } = useContext(BagContext)
 
 	const { isFallback } = useRouter()
 
@@ -29,22 +32,22 @@ export default function Product({ product }: ProductProps) {
 		return <p>Loading...</p>
 	}
 
-	async function handleBuyProduct() {
-		try {
-			setIsCreatingCheckoutSession(true)
+	// async function handleBuyProduct() {
+	// 	try {
+	// 		setIsCreatingCheckoutSession(true)
 
-			const response = await axios.post('/api/checkout', {
-				priceId: product.defaultPriceId
-			})
+	// 		const response = await axios.post('/api/checkout', {
+	// 			priceId: product.defaultPriceId
+	// 		})
 
-			const { checkoutUrl } = response.data
+	// 		const { checkoutUrl } = response.data
 
-			window.location.href = checkoutUrl
-		} catch (error) {
-			setIsCreatingCheckoutSession(false)
-			alert('Falha ao redirecionar ao checkout!')
-		}
-	}
+	// 		window.location.href = checkoutUrl
+	// 	} catch (error) {
+	// 		setIsCreatingCheckoutSession(false)
+	// 		alert('Falha ao redirecionar ao checkout!')
+	// 	}
+	// }
 
 	return (
 		<>
@@ -70,7 +73,7 @@ export default function Product({ product }: ProductProps) {
 
 					<p>{product.description}</p>
 
-					<button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
+					<button onClick={() => createItemInBag(product)}>
 						Colocar na sacola
 					</button>
 				</ProductDetails>
