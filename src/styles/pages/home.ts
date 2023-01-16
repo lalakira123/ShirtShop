@@ -42,6 +42,13 @@ export const Product = styled('div', {
     opacity: 0,
     transition: "all 0.2s ease-in-out",
 
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.25rem',
+      maxWidth: 250
+    },
+
     strong: {
       fontSize: '$lg',
       color: '$gray100',
@@ -51,6 +58,22 @@ export const Product = styled('div', {
       fontSize: '$xl',
       fontWeight: 'bold',
       color: '$green300',
+    },
+
+    button: {
+      border: 'none',
+      borderRadius: 6,
+      padding: 12,
+      color: '$gray100',
+      backgroundColor: '$green500',
+      fontSize: 28,
+      width: 56,
+      height: 56,
+      
+      '&:hover': {
+        cursor: 'pointer',
+        backgroundColor: '$green300',
+      }
     }
 
   },

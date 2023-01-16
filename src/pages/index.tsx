@@ -10,6 +10,7 @@ import Stripe from "stripe";
 import { priceFormatter } from "../utils/formatter";
 import Link from "next/link";
 import Head from "next/head";
+import { Handbag } from "phosphor-react";
 
 interface HomeProps {
   products: {
@@ -51,8 +52,14 @@ export default function Home({ products }: HomeProps) {
                 />
 
                 <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <div>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </div>
+
+                  <button>
+                    <Handbag />
+                  </button>
                 </footer>
               </Product>
             </Link>
