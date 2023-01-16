@@ -17,9 +17,13 @@ import {
   QuantityContainer, 
   ValueContainer
 } from '../styles/components/CartModal';
+import { useTotalPrice } from '../hooks/useTotalPrice';
+import { priceFormatter } from '../utils/formatter';
 
 export function CartModal() {
   const { bag, removeItemFromBag } = useContext(BagContext)
+
+  const totalPrice = useTotalPrice()
 
   return (
     <Dialog.Root>
@@ -82,7 +86,7 @@ export function CartModal() {
 
             <ValueContainer>
               <span>Valor total</span>
-              <strong>R$ 270,00</strong>
+              <strong>{priceFormatter.format(totalPrice)}</strong>
             </ValueContainer>
 
             <button>Finalizar compra</button>
