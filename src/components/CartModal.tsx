@@ -4,7 +4,7 @@ import { X } from 'phosphor-react';
 import { useContext } from 'react';
 import { BagContext } from '../contexts/BagContext';
 import { Handbag } from 'phosphor-react';
-import { CartButton, CartButtonFull } from '../styles/pages/app'
+import { CartButton, CartButtonFull } from '../styles/components/CartModal'
 import { 
   BagContainer, 
   Close,
