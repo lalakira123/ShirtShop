@@ -63,7 +63,10 @@ export default function Home({ products }: HomeProps) {
                     <span>{product.price}</span>
                   </div>
 
-                  <button onClick={() => createItemInBag(product)}>
+                  <button onClick={(event) => {
+                    event.preventDefault()
+                    createItemInBag(product)
+                  }}>
                     <Handbag />
                   </button>
                 </footer>
