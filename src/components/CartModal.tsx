@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import { X } from 'phosphor-react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { BagContext } from '../contexts/BagContext';
 import { Handbag } from 'phosphor-react';
 import { CartButton, CartButtonFull } from '../styles/components/CartModal'
@@ -19,11 +19,35 @@ import {
 } from '../styles/components/CartModal';
 import { useTotalPrice } from '../hooks/useTotalPrice';
 import { priceFormatter } from '../utils/formatter';
+import axios from 'axios';
 
 export function CartModal() {
   const { bag, removeItemFromBag } = useContext(BagContext)
 
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
   const totalPrice = useTotalPrice()
+
+  async function handleBuyProduct() {
+		try {
+			setIsCreatingCheckoutSession(true)
+
+      const priceIdList = bag.map((item) => {
+        return item.defaultPriceId
+      })
+
+			const response = await axios.post('/api/checkout', {
+				priceIdList
+			})
+
+			const { checkoutUrl } = response.data
+
+			window.location.href = checkoutUrl
+		} catch (error) {
+			setIsCreatingCheckoutSession(false)
+			alert('Falha ao redirecionar ao checkout!')
+		}
+	}
 
   return (
     <Dialog.Root>
@@ -89,7 +113,9 @@ export function CartModal() {
               <strong>{priceFormatter.format(totalPrice)}</strong>
             </ValueContainer>
 
-            <button>Finalizar compra</button>
+            <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
+              Finalizar compra
+            </button>
           </PurcharseInfoContainer>
         </Content>
       </Dialog.Portal>

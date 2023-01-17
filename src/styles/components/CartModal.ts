@@ -149,8 +149,13 @@ export const PurcharseInfoContainer = styled('section', {
     color: '$gray100',
     cursor: 'pointer',
 
-    '&:hover': {
+    '&:not(:disabled):hover': {
       backgroundColor: '$green300',
+    },
+
+    '&:disabled': {
+      opacity: 0.7,
+      cursor: 'not-allowed',
     }
   }
 })
